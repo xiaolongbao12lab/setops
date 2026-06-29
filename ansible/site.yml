@@ -1,0 +1,3 @@
+- hosts: ci-cd
+  become: true
+  roles: [ci-cd]
