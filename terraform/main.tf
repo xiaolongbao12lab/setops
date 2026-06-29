@@ -11,19 +11,19 @@ locals {
       for i in range(cfg.count) :
       "${name}-${i}" => {
         group = name
-        role = cfg.role
-        size = cfg.size
+        role  = cfg.role
+        size  = cfg.size
       }
     }
   ]...)
-} 
+}
 
 resource "google_compute_instance" "node" {
   for_each = local.instances
 
-  name  = "${var.name}-${each.key}"
+  name         = "${var.name}-${each.key}"
   machine_type = each.value.size
-  zone = var.zone
+  zone         = var.zone
 
   boot_disk {
     initialize_params {
@@ -34,7 +34,7 @@ resource "google_compute_instance" "node" {
   network_interface {
     network = "default"
     access_config {
-      
+
     }
   }
 
@@ -42,7 +42,7 @@ resource "google_compute_instance" "node" {
     role = each.value.role
   }
 
-  tags = [ "ssh" ]
+  tags = ["ssh", "${each.value.role}"]
 
   metadata = {
     ssh-keys = "${var.ssh_user}:${var.ssh_pubkey}"

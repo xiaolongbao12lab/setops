@@ -15,7 +15,7 @@ locals {
 }
 
 resource "local_file" "ansible_inventory" {
-  filename = var.inventory_path
+  filename        = var.inventory_path
   file_permission = "0644"
   content = templatefile("${path.module}/templates/inventory.tfpl", {
     groups       = local.inventory_groups
