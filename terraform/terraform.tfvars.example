@@ -2,3 +2,21 @@
 project_id=
 region=
 zone=
+name=
+
+# One entry per node group. `count` instances are created per group,
+# each named "k8s-<group>-<index>" and labelled with `role` for Ansible.
+# Control plane needs >= 2 vCPU / 2GB, so e2-medium minimum.
+node_groups = {
+  k8s_control_plane = { count = 1, size = "e2-medium", role = "k8s_control_plane" }
+  k8s_worker        = { count = 2, size = "e2-medium", role = "k8s_worker" }
+}
+
+ssh_user   = "ubuntu"
+ssh_pubkey = "ssh-ed25519 AAAA... user@host"
+# Narrow to your IP for least privilege:
+# ssh_source_ranges = ["<your.ip>/32"]
+# Private key Ansible uses (must match ssh_pubkey):
+# ssh_private_key_file = "~/.ssh/id_ed25519"
+
+inventory_path=
