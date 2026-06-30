@@ -14,3 +14,6 @@
         
   roles:
     - common
+    - oh-my-zsh
+    - docker
+    - portainer

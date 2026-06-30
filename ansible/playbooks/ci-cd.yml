@@ -1,0 +1,8 @@
+---
+- name: CI/CD
+  hosts: ci-cd
+  become: true
+
+  roles:
+    - gh
+    - jenkins

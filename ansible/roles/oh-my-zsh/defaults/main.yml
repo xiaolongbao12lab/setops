@@ -1,0 +1,9 @@
+---
+omz_user: "{{ ansible_user }}"
+omz_home: "/home/{{ omz_user }}"
+omz_theme: "robbyrussell"
+omz_plugins:
+  - git
+  - docker
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting   

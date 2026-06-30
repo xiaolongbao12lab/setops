@@ -1,0 +1,5 @@
+---
+- name: Install GitHub CLI 
+  ansible.builtin.apt:
+    name:
+      - gh

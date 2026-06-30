@@ -1,5 +1,5 @@
 ---
 collections: 
   - name: community.general # timezone (common)
-  - name: common.docker # containers (nexus, sonarqube)
+  - name: community.docker # containers (nexus, sonarqube)
   - name: ansible.posix  # sysctl (sonarqube)

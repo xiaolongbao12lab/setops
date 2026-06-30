@@ -1,2 +1,3 @@
 ---
 - ansible.builtin.import_playbook: playbooks/baseline.yml
+- ansible.builtin.import_playbook: playbooks/ci-cd.yml

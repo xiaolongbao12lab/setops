@@ -1,0 +1,43 @@
+---
+- name: Install zsh
+  ansible.builtin.apt:
+    name:
+      - zsh
+    state: present
+
+- name: Clone Oh My Zsh
+  ansible.builtin.git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ omz_home }}/.oh-my-zsh"
+    depth: 1
+    version: master
+    update: false # clone once, don't re-pull -> idempotent
+  become: false 
+
+- name: Clone zsh-autosuggestions
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ omz_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    depth: 1
+    update: false
+  become: false
+
+- name: Clone zsh-syntax-highlighting
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ omz_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    depth: 1
+    update: false
+  become: false
+
+- name: Write .zshrc
+  ansible.builtin.template:
+    src: zshrc.j2
+    dest: "{{ omz_home }}/.zshrc"
+    mode: "0644"
+  become: false
+
+- name: Set zsh as the default shell
+  ansible.builtin.user:
+    name: "{{ omz_user }}"
+    shell: /usr/bin/zsh
