@@ -44,6 +44,7 @@ locals {
     "ci-cd" = ["8080"] # Jenkins
     "artifact-storage" = ["8081", "8082"]  # Nexus UI + Docker repo
     "code-quality"     = ["9000"] # Sonarqube
+    "portainer" = ["9443"]
   }
 }
 
