@@ -1,0 +1,14 @@
+---
+- name: Make sure nginx config is live so certbot can read server_name
+  ansible.builtin.meta: flush_handlers
+
+- name: Obtain/install the certificate with certbot
+  ansible.builtin.command:
+    cmd: >
+      certbot --nginx
+      -d {{ nginx_domain }}
+      --non-interactive --agree-tos
+      -m {{ certbot_email }}
+      --redirect
+      {{ '--staging' if certbot_staging | default(false) | bool else '' }}
+    creates: "/etc/letsencrypt/live/{{ nginx_domain }}/fullchain.pem"

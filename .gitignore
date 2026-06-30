@@ -38,3 +38,5 @@ ansible/.venv/
 # Kubespray checkout + generated kubeconfig
 ansible/kubespray/
 ansible/kubeconfig
+
+./ansible/inventory.ini
