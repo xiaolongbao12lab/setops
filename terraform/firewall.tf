@@ -37,3 +37,23 @@ resource "google_compute_firewall" "internal" {
   source_tags = ["ssh"]
   target_tags = ["ssh"]
 }
+
+# Allow ports for some service UI (Jenkins, Sonarqube, Nexus, ...)
+locals {
+  ui_ports = {
+    "ci-cd" = ["8080"] # Jenkins
+    "artifact-storage" = ["8081", "8082"]  # Nexus UI + Docker repo
+    "code-quality"     = ["9000"] # Sonarqube
+  }
+}
+
+resource "google_compute_firewall" "service_ui" {
+  for_each = local.ui_ports
+  name = "allow-service-ui-${each.key}"
+  network = "default"
+  target_tags = [ each.key ]
+  allow {
+    protocol = "tcp"
+    ports = each.value
+  }
+}
