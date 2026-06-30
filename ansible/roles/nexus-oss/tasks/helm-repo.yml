@@ -1,0 +1,16 @@
+- name: Create the Helm hosted repository (served on 8081)
+  ansible.builtin.uri:
+    url: http://localhost:8081/service/rest/v1/repositories/helm/hosted
+    method: POST
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body:
+      name: helm-hosted
+      online: true
+      storage:
+        blobStoreName: helm-blob            # <- its own blob store
+        strictContentTypeValidation: true
+        writePolicy: ALLOW
+    status_code: [201, 400]

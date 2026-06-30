@@ -1,3 +1,2 @@
-- hosts: ci-cd
-  become: true
-  roles: [ci-cd]
+---
+- ansible.builtin.import_playbook: playbooks/baseline.yml

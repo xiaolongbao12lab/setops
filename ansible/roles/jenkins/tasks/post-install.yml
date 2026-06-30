@@ -1,0 +1,16 @@
+---
+- name: Wait for Jenkins to come up on 8080
+  ansible.builtin.wait_for:
+    port: 8080
+    delay: 10
+    timeout: 300
+
+# This file only exists once Jenkins is fully up, so the wait_for must run first.
+- name: Read the initial admin password
+  ansible.builtin.slurp:
+    src: /var/lib/jenkins/secrets/initialAdminPassword
+  register: jenkins_admin_pw
+
+- name: Show how to unlock Jenkins
+  ansible.builtin.debug:
+    msg: "Jenkins: http://{{ ansible_host }}:8080  -  unlock with {{ jenkins_admin_pw.content | b64decode | trim }}"

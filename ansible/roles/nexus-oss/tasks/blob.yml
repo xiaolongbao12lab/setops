@@ -1,0 +1,15 @@
+- name: Create the blob stores (one per format)
+  ansible.builtin.uri:
+    url: http://localhost:8081/service/rest/v1/blobstores/file
+    method: POST
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body:
+      name: "{{ item }}"
+      path: "{{ item }}"    
+    status_code: [204, 400]       # 204 created, 400 already exists -> idempotent
+  loop:
+    - docker-blob
+    - helm-blob

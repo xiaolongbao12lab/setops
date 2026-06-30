@@ -1,0 +1,8 @@
+---
+- name: Install Java and prerequisites
+  ansible.builtin.apt:
+    name:
+      - fontconfig
+      - openjdk-21-jre
+    state: present
+

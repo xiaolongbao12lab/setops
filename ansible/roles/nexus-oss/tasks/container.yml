@@ -1,0 +1,31 @@
+- name: Create a persistent volume for Nexus data
+  community.docker.docker_volume:
+    name: nexus-data
+
+- name: Run the Nexus container
+  community.docker.docker_container:
+    name: nexus
+    image: sonatype/nexus:pro-2.15.2-03
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "8081:8081"
+    volumes:
+      - "nexus-data:/nexus-data"
+
+- name: Wait for Nexus to come up on 8081
+  ansible.builtin.wait_for:
+    port: 8081
+    delay: 30
+    timeout: 300
+
+- name: Read the generated admin password
+  ansible.builtin.slurp:
+    src: /nexus-data/admin.password
+  register: nexus_pw
+  # if the file is gone (already initialized), set nexus_admin_password yourself
+  ignore_errors: true
+
+- name: Set a usable admin password fact
+  ansible.builtin.set_fact:
+    nexus_admin_password: "{{ (nexus_pw.content | b64decode | trim) if nexus_pw is success else nexus_admin_password }}"

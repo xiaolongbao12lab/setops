@@ -1,0 +1,6 @@
+---
+- ansible.builtin.import_tasks: container.yml
+- ansible.builtin.import_tasks: blob.yml
+- ansible.builtin.import_tasks: docker-repo.yml
+- ansible.builtin.import_tasks: helm-repo.yml
+- ansible.builtin.import_tasks: post-setup.yml

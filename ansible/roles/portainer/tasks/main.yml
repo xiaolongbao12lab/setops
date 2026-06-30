@@ -1,0 +1,26 @@
+---
+- name: Create a persistent volume for Portainer data
+  community.docker.docker_volume:
+    name: portainer_data
+
+- name: Run the portainer container
+  community.docker.docker_container:
+    name: portainer
+    image: portainer/portainer-ce:latest
+    state: started
+    restart_policy: always
+    published_ports:
+      - "9443:9443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer_data:/data"
+
+- name: Wait for Portainer to come up on 9443
+  ansible.builtin.wait_for:
+    port: 9443
+    delay: 5
+    timeout: 120
+
+- name: Show how to reach Portainer
+  ansible.builtin.debug:
+    msg: "Portainer: https://{{ ansible_host }}:9443  -  set the admin password right away (it locks if left too long)"

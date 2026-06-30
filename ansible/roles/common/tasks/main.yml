@@ -1,0 +1,26 @@
+---
+- name: Set the timezone
+  community.general.timezone:
+    name: Asia/Phnom_Penh
+
+- name: Update cache and apply security upgrades
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: safe
+    cache_valid_time: 3600
+  register: apt_baseline
+  until: apt_baseline is success
+  retries: 5
+  delay: 15
+
+- name: Install baseline packages every node needs
+  ansible.builtin.apt:
+    name:
+      - curl
+      - vim
+      - htop
+      - git
+      - ca-certificates
+      - gnupg
+      - unattended-upgrades
+    state: present

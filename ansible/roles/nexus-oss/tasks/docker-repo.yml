@@ -1,0 +1,20 @@
+- name: Create the Docker hosted repository (HTTP connector on 8082)
+  ansible.builtin.uri:
+    url: http://localhost:8081/service/rest/v1/repositories/docker/hosted
+    method: POST
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body:
+      name: docker-hosted
+      online: true
+      storage:
+        blobStoreName: docker-blob          # <- its own blob store
+        strictContentTypeValidation: true
+        writePolicy: ALLOW
+      docker:
+        v1Enabled: false
+        forceBasicAuth: true
+        httpPort: 8082
+    status_code: [201, 400]

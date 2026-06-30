@@ -1,0 +1,4 @@
+---
+- ansible.builtin.import_tasks: java.yml
+- ansible.builtin.import_tasks: install.yml
+- ansible.builtin.import_tasks: post-install.yml
