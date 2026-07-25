@@ -8,7 +8,7 @@ locals {
       for name, i in google_compute_instance.node :
       # use the sanitized instance name (no "_") so it is valid as a Linux
       # hostname / k8s node name, not the underscored for_each key
-      { name = i.name, ip = i.network_interface[0].access_config[0].nat_ip }
+      { name = i.name, ip = i.network_interface[0].access_config[0].nat_ip, domain =  }
       if i.labels.role == role
     ]
   }

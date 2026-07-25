@@ -1,6 +1,7 @@
 variable "project_id" {
   description = "GCP project ID"
   type        = string
+  sensitive = true
 }
 
 variable "region" {
@@ -29,17 +30,21 @@ variable "node_groups" {
     role      = string
     stateful  = optional(bool, false)
     volume_gb = optional(number, 0)
+    is_create_domain = optional(bool, false)
+    domain = optional(string)
   }))
 }
 
 variable "ssh_user" {
   description = "Linux user provisioned for SSH access"
   type        = string
+  sensitive = true
 }
 
 variable "ssh_pubkey" {
   description = "Public key contents for ssh_user"
   type        = string
+  sensitive = true
 }
 
 variable "ssh_source_ranges" {
@@ -52,9 +57,30 @@ variable "ssh_private_key_file" {
   description = "Path to the SSH private key Ansible uses to reach instances"
   type        = string
   default     = "~/.ssh/id_ed25519"
+  sensitive = true
 }
 
 variable "inventory_path" {
   description = "Filesystem path where the generated Ansible inventory is written"
   type        = string
+  sensitive = true
 }
+
+variable "cf_zone_id" {
+  description = "Cloudflare Zone ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "cf_account_id" {
+  description = "Cloudflare Account ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "cf_domain" {
+  description = "Domain name"
+  type        = string
+  default     = "example.com"
+}
+

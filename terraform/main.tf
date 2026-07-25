@@ -13,6 +13,8 @@ locals {
         group = name
         role  = cfg.role
         size  = cfg.size
+        domain = coalesce(cfg.domain, cfg.role)
+        is_create_domain = cfg.is_create_domain
       }
     }
   ]...)
@@ -42,7 +44,7 @@ resource "google_compute_instance" "node" {
     role = each.value.role
   }
 
-  tags = ["ssh", "${each.value.role}"]
+  tags = ["ssh", "http-server", "${each.value.role}"]
 
   metadata = {
     ssh-keys = "${var.ssh_user}:${var.ssh_pubkey}"

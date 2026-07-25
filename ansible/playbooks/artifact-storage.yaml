@@ -1,0 +1,9 @@
+---
+- name: Artifact Storage
+  hosts: artifact-storage
+  become: true
+
+  roles:
+    - oh-my-zsh
+    - portainer
+    - nexus-oss

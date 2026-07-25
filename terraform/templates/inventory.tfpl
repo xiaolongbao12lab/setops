@@ -1,7 +1,7 @@
 %{ for group, hosts in groups ~}
 [${group}]
 %{ for h in hosts ~}
-${h.name} ansible_host=${h.ip}
+${h.name} ansible_host=${h.ip} domain=${h.domain} certbot_email=${certbot_email}
 %{ endfor ~}
 %{ endfor ~}
 [all:vars]
