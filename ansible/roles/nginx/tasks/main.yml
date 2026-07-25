@@ -1,4 +1,12 @@
 ---
 - name: Install and configure nginx
   ansible.builtin.import_tasks: setup.yml
-  tags: [ "nginx","setup"]
+  tags:
+    - nginx
+    - setup
+
+- name: Configure SSL certificate
+  ansible.builtin.import_tasks: cert.yml
+  tags:
+    - nginx
+    - ssl

@@ -3,8 +3,19 @@
   community.general.timezone:
     name: Asia/Phnom_Penh
 
+- name: Wait for cloud-init completion
+  ansible.builtin.command:
+    cmd: cloud-init status --wait
+  changed_when: false
+
+- name: Enable Ubuntu universe repository
+  ansible.builtin.apt_repository:
+    repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
 - name: Update cache and apply security upgrades
-  ansible.builtin.apt:
+  ansible.builtin.apt:  
     update_cache: true
     upgrade: safe
     cache_valid_time: 3600
@@ -23,4 +34,5 @@
       - ca-certificates
       - gnupg
       - unattended-upgrades
+      - zsh
     state: present

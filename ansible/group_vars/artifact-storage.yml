@@ -1,0 +1,2 @@
+nginx_domain: "{{ instance_domains[inventory_hostname] }}"
+app_port: 8081

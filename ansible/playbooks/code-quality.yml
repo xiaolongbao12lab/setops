@@ -1,0 +1,8 @@
+- name: Code Quality 
+  hosts: code-quality
+  become: true
+
+  roles:
+    - sonarqube
+    - nginx
+    - portainer

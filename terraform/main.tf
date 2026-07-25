@@ -10,10 +10,10 @@ locals {
     for name, cfg in var.node_groups : {
       for i in range(cfg.count) :
       "${name}-${i}" => {
-        group = name
-        role  = cfg.role
-        size  = cfg.size
-        domain = coalesce(cfg.domain, cfg.role)
+        group            = name
+        role             = cfg.role
+        size             = cfg.size
+        domain           = coalesce(cfg.domain, cfg.role)
         is_create_domain = cfg.is_create_domain
       }
     }

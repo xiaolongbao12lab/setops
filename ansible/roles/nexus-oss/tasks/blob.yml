@@ -1,9 +1,9 @@
 - name: Create the blob stores (one per format)
   ansible.builtin.uri:
-    url: http://localhost:8081/service/rest/v1/blobstores/file
+    url: "http://{{ ansible_host }}:8081/service/rest/v1/blobstores/file"
     method: POST
-    user: admin
-    password: "{{ nexus_admin_password }}"
+    user: "{{ nexus_admin_user }}"
+    password: "{{ nexus_api_password }}"
     force_basic_auth: true
     body_format: json
     body:

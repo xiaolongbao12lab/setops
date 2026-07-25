@@ -1,8 +1,8 @@
 - name: Create the Helm hosted repository (served on 8081)
   ansible.builtin.uri:
-    url: http://localhost:8081/service/rest/v1/repositories/helm/hosted
+    url: http://{{ ansible_host }}:8081/service/rest/v1/repositories/helm/hosted
     method: POST
-    user: admin
+    user: "{{ nexus_admin_user }}"
     password: "{{ nexus_admin_password }}"
     force_basic_auth: true
     body_format: json

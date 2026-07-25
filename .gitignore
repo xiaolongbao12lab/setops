@@ -40,3 +40,5 @@ ansible/kubespray/
 ansible/kubeconfig
 
 ./ansible/inventory.ini
+
+./ansible/domains.json

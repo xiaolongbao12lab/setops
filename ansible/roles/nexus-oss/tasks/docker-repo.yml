@@ -1,8 +1,8 @@
 - name: Create the Docker hosted repository (HTTP connector on 8082)
   ansible.builtin.uri:
-    url: http://localhost:8081/service/rest/v1/repositories/docker/hosted
+    url: http://{{ ansible_host }}:8081/service/rest/v1/repositories/docker/hosted
     method: POST
-    user: admin
+    user: "{{ nexus_admin_user }}"
     password: "{{ nexus_admin_password }}"
     force_basic_auth: true
     body_format: json

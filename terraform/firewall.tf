@@ -14,6 +14,25 @@ resource "google_compute_firewall" "ssh" {
   target_tags   = ["ssh"]
 }
 
+# Allow HTTP/HTTPS for instances that get a public domain + certbot cert.
+resource "google_compute_firewall" "web" {
+  name    = "${var.name}-allow-web"
+  network = "default"
+
+  direction = "INGRESS"
+
+  target_tags = ["http-server"]
+
+  source_ranges = [
+    "0.0.0.0/0"
+  ]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443"]
+  }
+}
+
 # Allow unrestricted traffic between cluster nodes (node-to-node / pod
 # networking).
 resource "google_compute_firewall" "internal" {
@@ -41,20 +60,28 @@ resource "google_compute_firewall" "internal" {
 # Allow ports for some service UI (Jenkins, Sonarqube, Nexus, ...)
 locals {
   ui_ports = {
-    "ci-cd" = ["8080"] # Jenkins
-    "artifact-storage" = ["8081", "8082"]  # Nexus UI + Docker repo
-    "code-quality"     = ["9000"] # Sonarqube
-    "portainer" = ["9443"]
+    ci-cd            = ["8080", "9443"]         # Jenkins
+    artifact-storage = ["8081", "8082", "9443"] # Nexus UI + Docker Registry
+    code-quality     = ["9000", "9443"]         # SonarQube
   }
 }
 
 resource "google_compute_firewall" "service_ui" {
   for_each = local.ui_ports
-  name = "allow-service-ui-${each.key}"
+
+  name    = "allow-service-ui-${each.key}"
   network = "default"
-  target_tags = [ each.key ]
+
+  direction = "INGRESS"
+
+  target_tags = [each.key]
+
+  source_ranges = [
+    "0.0.0.0/0"
+  ]
+
   allow {
     protocol = "tcp"
-    ports = each.value
+    ports    = each.value
   }
 }

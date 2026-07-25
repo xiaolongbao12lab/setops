@@ -1,0 +1,7 @@
+{
+  "instance_domains": {
+    "setops-artifact-storage-0": "nexus-oss.first-frost.site",
+    "setops-ci-cd-0": "jenkins.first-frost.site",
+    "setops-code-quality-0": "sonarqube.first-frost.site"
+  }
+}

@@ -25,3 +25,10 @@ output "instances_by_role" {
     ]
   }
 }
+
+output "instance_domains" {
+  value = {
+    for k, record in cloudflare_dns_record.dns_instance :
+    google_compute_instance.node[k].name => "${record.name}.${var.cf_domain}"
+  }
+}

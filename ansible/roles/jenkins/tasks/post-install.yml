@@ -14,3 +14,7 @@
 - name: Show how to unlock Jenkins
   ansible.builtin.debug:
     msg: "Jenkins: http://{{ ansible_host }}:8080  -  unlock with {{ jenkins_admin_pw.content | b64decode | trim }}"
+
+- name: Show Jenkins domain
+  debug:
+    msg: "Jenkins domain is {{ instance_domains[inventory_hostname] }}"

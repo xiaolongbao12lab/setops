@@ -1,10 +1,4 @@
 ---
-- name: Install zsh
-  ansible.builtin.apt:
-    name:
-      - zsh
-    state: present
-
 - name: Clone Oh My Zsh
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git

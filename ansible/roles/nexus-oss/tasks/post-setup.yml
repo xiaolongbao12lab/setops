@@ -1,3 +1,7 @@
 - name: Show how to reach Nexus
   ansible.builtin.debug:
     msg: "Nexus: http://{{ ansible_host }}:8081  -  admin password: docker exec nexus cat /nexus-data/admin.password"
+
+- name: Show Nexus domain
+  debug:
+    msg: "Nexus domain is {{ instance_domains[inventory_hostname] }}"

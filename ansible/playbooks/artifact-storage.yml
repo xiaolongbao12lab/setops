@@ -4,6 +4,6 @@
   become: true
 
   roles:
-    - oh-my-zsh
-    - portainer
     - nexus-oss
+    - nginx
+    - portainer

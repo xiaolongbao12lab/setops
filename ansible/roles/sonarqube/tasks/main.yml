@@ -32,3 +32,7 @@
 - name: Show how to reach SonarQube
   ansible.builtin.debug:
     msg: "SonarQube: http://{{ ansible_host }}:9000  -  default login admin / admin"
+
+- name: Show SonarQube domain
+  debug:
+    msg: "Sonarqube domain is {{ instance_domains[inventory_hostname] }}"
