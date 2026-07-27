@@ -60,8 +60,21 @@ variable "ssh_private_key_file" {
   sensitive   = true
 }
 
+variable "k8s_ssh_private_key_file" {
+  description = "Path to the k8s SSH private key Ansible uses to reach instances"
+  type        = string
+  default     = "~/.ssh/id_ed25519"
+  sensitive   = true
+}
+
 variable "inventory_path" {
   description = "Filesystem path where the generated Ansible inventory is written"
+  type        = string
+  sensitive   = true
+}
+
+variable "k8s_inventory_path" {
+  description = "Filesystem path where the generated Ansible k8s inventory is written"
   type        = string
   sensitive   = true
 }

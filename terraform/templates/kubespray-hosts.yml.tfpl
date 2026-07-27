@@ -1,0 +1,47 @@
+all:
+  hosts:
+%{ for host in groups["kube_control_plane"] ~}
+    ${host.name}:
+      ansible_host: ${host.external_ip}
+      ip: ${host.internal_ip}
+      access_ip: ${host.internal_ip}
+%{ endfor ~}
+
+%{ for host in groups["kube_node"] ~}
+    ${host.name}:
+      ansible_host: ${host.external_ip}
+      ip: ${host.internal_ip}
+      access_ip: ${host.internal_ip}
+%{ endfor ~}
+
+  children:
+
+    kube_control_plane:
+      hosts:
+%{ for host in groups["kube_control_plane"] ~}
+        ${host.name}:
+%{ endfor ~}
+
+    etcd:
+      hosts:
+%{ for host in groups["etcd"] ~}
+        ${host.name}:
+%{ endfor ~}
+
+    kube_node:
+      hosts:
+%{ for host in groups["kube_node"] ~}
+        ${host.name}:
+%{ endfor ~}
+
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+
+  vars:
+    ansible_user: ${ssh_user}
+    ansible_become: true
+    ansible_become_method: sudo
+    ansible_ssh_private_key_file: ${ssh_key_file}
+    ansible_ssh_common_args: "-o UserKnownHostsFile=./.ssh/known_hosts -o StrictHostKeyChecking=accept-new"
