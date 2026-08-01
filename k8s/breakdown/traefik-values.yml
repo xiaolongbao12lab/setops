@@ -1,0 +1,25 @@
+deployment:
+  kind: DaemonSet
+
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+
+ports:
+  web:
+    port: 8000
+    hostPort: 80
+    allowACMEByPass: true
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    port: 8443
+    hostPort: 443
+    http:
+      tls:
+        enabled: true

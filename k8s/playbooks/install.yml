@@ -1,22 +1,22 @@
 ---
-- name: Install Kubernetes
-  become: true
-  hosts: localhost
-  connection: local
-  gather_facts: false
+# - name: Install Kubernetes
+#   become: true
+#   hosts: localhost
+#   connection: local
+#   gather_facts: false
 
-  roles:
-    - kubespray
+#   roles:
+#     - kubespray
 
-- name: Configure controller kubeconfig
-  hosts: kube_control_plane[0]
-  become: true
+# - name: Configure controller kubeconfig
+#   hosts: kube_control_plane[0]
+#   become: true
 
-  vars_files:
-    - ../inventory/controller.yml
+#   vars_files:
+#     - ../inventory/controller.yml
 
-  roles:
-    - kubeconfig
+#   roles:
+#     - kubeconfig
 
 - name: Install Kubernetes applications
   hosts: localhost

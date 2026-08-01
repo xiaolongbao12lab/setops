@@ -10,3 +10,21 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - react.first-frost.site
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: earthdx-ingressroute
+  namespace: earthdx
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`react.first-frost.site`)
+      kind: Rule
+      services:
+        - name: earthdx-svc
+          port: 80
+  tls:
+    secretName: earthdx-tls
