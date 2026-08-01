@@ -1,0 +1,4 @@
+supplementary_addresses_in_ssl_keys:
+%{ for ip in supplementary_addresses ~}
+  - ${ip}
+%{ endfor ~}

@@ -1,0 +1,5 @@
+---
+- name: Copy generated hosts.yml
+  ansible.builtin.copy:
+    src: "{{ terraform_inventory }}"
+    dest: "{{ kubespray_inventory }}/hosts.yml"

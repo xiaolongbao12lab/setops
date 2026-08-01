@@ -1,0 +1,57 @@
+---
+- name: Fetch admin kubeconfig from first master
+  fetch:
+    src: /etc/kubernetes/admin.conf
+    dest: /tmp/admin.conf
+    flat: true
+
+
+- name: Create kube directory on controller
+  delegate_to: localhost
+  become: false
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.kube"
+    state: directory
+    mode: "0700"
+
+
+- name: Copy kubeconfig to controller
+  delegate_to: localhost
+  become: false
+  copy:
+    src: /tmp/admin.conf
+    dest: "{{ lookup('env', 'HOME') }}/.kube/config"
+    mode: "0600"
+
+
+- name: Change kubeconfig ownership
+  delegate_to: localhost
+  become: true
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.kube/config"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: "0600"
+
+
+- name: Update Kubernetes API endpoint
+  delegate_to: localhost
+  become: false
+  replace:
+    path: "{{ lookup('env', 'HOME') }}/.kube/config"
+    regexp: 'server: https://.*:6443'
+    replace: "server: https://{{ kube_api_endpoint }}:6443"
+
+
+- name: Verify kubeconfig endpoint
+  delegate_to: localhost
+  become: false
+  command:
+    cmd: grep server {{ lookup('env', 'HOME') }}/.kube/config
+  register: kubeconfig_server
+  changed_when: false
+
+
+- name: Display kubeconfig endpoint
+  debug:
+    var: kubeconfig_server.stdout

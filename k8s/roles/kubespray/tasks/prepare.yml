@@ -1,0 +1,22 @@
+---
+- name: Check Kubespray exists
+  ansible.builtin.stat:
+    path: "{{ kubespray_dir }}/cluster.yml"
+  register: kubespray_exists
+
+- name: Fail if Kubespray is missing
+  ansible.builtin.fail:
+    msg: |
+      Kubespray was not found.
+
+      Clone it first:
+
+      cd k8s
+      git clone https://github.com/kubernetes-sigs/kubespray.git
+  when: not kubespray_exists.stat.exists
+
+
+- name: Create Kubespray inventory directory
+  ansible.builtin.file:
+    path: "{{ kubespray_inventory }}"
+    state: directory

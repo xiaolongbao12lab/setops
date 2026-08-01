@@ -63,6 +63,7 @@ locals {
     ci-cd            = ["8080", "9443"]         # Jenkins
     artifact-storage = ["8081", "8082", "9443"] # Nexus UI + Docker Registry
     code-quality     = ["9000", "9443"]         # SonarQube
+    k8s-master       = ["6443", "9443"]         # k8s
   }
 }
 

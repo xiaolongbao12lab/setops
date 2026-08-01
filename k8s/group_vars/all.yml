@@ -1,0 +1,4 @@
+---
+kubespray_version: v2.27.0
+kubeconfig_path: /etc/kubernetes/admin.conf
+kubectl_version: stable

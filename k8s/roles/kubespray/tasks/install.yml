@@ -1,0 +1,14 @@
+---
+- name: Deploy Kubernetes using Kubespray
+  ansible.builtin.command:
+    argv:
+      - "{{ venv_dir }}/bin/python"
+      - "-m"
+      - "ansible.cli.playbook"
+      - "-i"
+      - "{{ kubespray_inventory }}/hosts.yml"
+      - "{{ kubespray_dir }}/cluster.yml"
+  register: kubespray_result
+  args:
+    chdir: "{{ kubespray_dir }}"
+  changed_when: true

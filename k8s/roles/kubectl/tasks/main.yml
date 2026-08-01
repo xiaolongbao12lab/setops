@@ -1,0 +1,37 @@
+---
+- name: Get system architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: kubectl_arch
+  changed_when: false
+
+- name: Get latest stable kubectl version
+  ansible.builtin.uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: true
+  register: kubectl_latest
+  when: kubectl_version == "stable"
+
+- name: Set kubectl version
+  ansible.builtin.set_fact:
+    kubectl_download_version: >-
+      {{
+        kubectl_latest.content | trim
+        if kubectl_version == "stable"
+        else kubectl_version
+      }}
+
+- name: Download kubectl
+  ansible.builtin.get_url:
+    url: >-
+      https://dl.k8s.io/release/{{ kubectl_download_version }}/bin/linux/{{ kubectl_arch.stdout }}/kubectl
+    dest: "{{ kubectl_install_path }}"
+    mode: "0755"
+
+- name: Verify kubectl installation
+  ansible.builtin.command: kubectl version --client
+  register: kubectl_version_output
+  changed_when: false
+
+- name: Show kubectl version
+  ansible.builtin.debug:
+    var: kubectl_version_output.stdout

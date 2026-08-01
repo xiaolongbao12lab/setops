@@ -1,0 +1,8 @@
+---
+- name: Install Kubernetes Python libraries
+  pip:
+    name:
+      - kubernetes
+      - openshift
+      - PyYAML
+    virtualenv: "{{ playbook_dir }}/../.venv"

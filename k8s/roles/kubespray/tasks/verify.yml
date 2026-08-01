@@ -1,0 +1,4 @@
+---
+- name: Wait for API server
+  ansible.builtin.pause:
+    seconds: 30

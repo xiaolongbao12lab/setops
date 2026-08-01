@@ -1,0 +1,6 @@
+---
+kubespray_dir: "{{ playbook_dir }}/../kubespray"
+kubespray_inventory: "{{ kubespray_dir }}/inventory/setops"
+terraform_inventory: "{{ playbook_dir }}/../inventory/hosts.yml"
+ansible_playbook_bin: "{{ playbook_dir }}/../.venv/bin/ansible-playbook"
+venv_dir: "{{ playbook_dir }}/../.venv"

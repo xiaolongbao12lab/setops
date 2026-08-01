@@ -1,0 +1,5 @@
+---
+traefik_namespace: traefik
+traefik_chart_repo: https://traefik.github.io/charts
+traefik_release_name: traefik
+kubeconfig_path: "{{ lookup('env', 'HOME') }}/.kube/config"

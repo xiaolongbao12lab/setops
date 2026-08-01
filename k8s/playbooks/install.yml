@@ -1,0 +1,33 @@
+---
+- name: Install Kubernetes
+  become: true
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  roles:
+    - kubespray
+
+- name: Configure controller kubeconfig
+  hosts: kube_control_plane[0]
+  become: true
+
+  vars_files:
+    - ../inventory/controller.yml
+
+  roles:
+    - kubeconfig
+
+- name: Install Kubernetes applications
+  hosts: localhost
+  gather_facts: false
+  become: false
+  connection: local
+
+  vars:
+    ansible_python_interpreter: "{{ ansible_playbook_python }}"
+
+  roles:
+    - helm
+    - python-deps
+    - traefik

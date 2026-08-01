@@ -1,0 +1,19 @@
+---
+- name: Add Headlamp repo
+  kubernetes.core.helm_repository:
+    name: headlamp
+    repo_url: https://headlamp-k8s.github.io/headlamp/
+
+
+- name: Install Headlamp
+  kubernetes.core.helm:
+    name: headlamp
+    chart_ref: headlamp/headlamp
+    namespace: headlamp
+    create_namespace: true
+
+
+- name: Create Headlamp ingress
+  kubernetes.core.k8s:
+    state: present
+    template: ingress.yaml.j2

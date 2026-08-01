@@ -17,7 +17,7 @@ locals {
     kube_control_plane = [
       for name, i in google_compute_instance.node :
       {
-        name = i.name
+        name        = i.name
         external_ip = i.network_interface[0].access_config[0].nat_ip
         internal_ip = i.network_interface[0].network_ip
       }
@@ -28,7 +28,7 @@ locals {
     etcd = [
       for name, i in google_compute_instance.node :
       {
-        name = i.name
+        name        = i.name
         external_ip = i.network_interface[0].access_config[0].nat_ip
         internal_ip = i.network_interface[0].network_ip
       }
@@ -39,7 +39,7 @@ locals {
     kube_node = [
       for name, i in google_compute_instance.node :
       {
-        name = i.name
+        name        = i.name
         external_ip = i.network_interface[0].access_config[0].nat_ip
         internal_ip = i.network_interface[0].network_ip
       }
@@ -69,9 +69,49 @@ resource "local_file" "kubespray_inventory" {
   content = templatefile(
     "${path.module}/templates/kubespray-hosts.yml.tfpl",
     {
-      groups = local.k8s_inventory_groups
+      groups       = local.k8s_inventory_groups
       ssh_user     = var.ssh_user
       ssh_key_file = var.k8s_ssh_private_key_file
     }
   )
+}
+
+resource "local_file" "kubespray_cluster_vars" {
+
+  filename = "../k8s/kubespray/inventory/setops/group_vars/k8s_cluster/k8s-cluster.yml"
+
+  content = templatefile(
+    "${path.module}/templates/k8s-cluster.yml.tfpl",
+    {
+      supplementary_addresses = [
+        for _, instance in google_compute_instance.node :
+        instance.network_interface[0].access_config[0].nat_ip
+        if instance.labels.role == "k8s-master"
+      ]
+    }
+  )
+}
+
+locals {
+
+  kube_api_endpoint = one([
+    for _, i in google_compute_instance.node :
+    i.network_interface[0].access_config[0].nat_ip
+    if i.labels.role == "k8s-master"
+  ])
+
+}
+
+resource "local_file" "controller_vars" {
+
+  filename = "../k8s/inventory/controller.yml"
+
+  content = templatefile(
+    "${path.module}/templates/controller.yml.tfpl",
+    {
+      kube_api_endpoint = local.kube_api_endpoint
+    }
+  )
+
+  file_permission = "0644"
 }

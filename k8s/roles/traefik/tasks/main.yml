@@ -1,0 +1,38 @@
+---
+- name: Add Traefik repo
+  kubernetes.core.helm_repository:
+    name: traefik
+    repo_url: https://traefik.github.io/charts
+
+- name: Show Python interpreter
+  debug:
+    var: ansible_python_interpreter
+
+- name: Show playbook Python
+  debug:
+    var: ansible_playbook_python
+
+- name: Show current user
+  command: whoami
+  register: current_user
+  changed_when: false
+
+- debug:
+    var: current_user.stdout
+
+- name: Create Traefik namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    name: "{{ traefik_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+
+
+- name: Install Traefik
+  kubernetes.core.helm:
+    kubeconfig_path: "{{ lookup('env', 'HOME') }}/.kube/config"
+    name: traefik
+    chart_ref: traefik/traefik
+    namespace: "{{ traefik_namespace }}"
+    create_namespace: true
