@@ -193,8 +193,8 @@ k8s/
 | Nexus OSS role              | ✅              |
 | SonarQube role              | ✅              |
 | Kubernetes cluster creation | ✅              |
-| Traefik automation          | ⚠️ In progress |
-| Headlamp automation         | ⏳ Planned      |
-| ArgoCD automation           | ⏳ Planned      |
+| Traefik automation          | ✅              |
+| Headlamp automation         | ✅              |
+| ArgoCD automation           | ✅              |
 
-The repository is currently stable up to **Kubernetes cluster creation and kubectl access from the control machine**.
+The repository is currently stable up to **Kubernetes cluster creation, Traefik, Headlamp, and ArgoCD access from the control machine**.

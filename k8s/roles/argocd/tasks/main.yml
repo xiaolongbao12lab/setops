@@ -1,0 +1,13 @@
+---
+- name: Add ArgoCD repo
+  kubernetes.core.helm_repository:
+    name: argo
+    repo_url: https://argoproj.github.io/argo-helm
+
+- name: Install ArgoCD
+  kubernetes.core.helm:
+    kubeconfig: "{{ kubeconfig_path }}"
+    name: "{{ argocd_release_name }}"
+    chart_ref: argo/argo-cd
+    namespace: "{{ argocd_namespace }}"
+    create_namespace: true

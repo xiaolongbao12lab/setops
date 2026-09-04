@@ -7,13 +7,14 @@
 
 - name: Install Headlamp
   kubernetes.core.helm:
+    kubeconfig: "{{ kubeconfig_path }}"
     name: headlamp
     chart_ref: headlamp/headlamp
     namespace: headlamp
     create_namespace: true
 
-
 - name: Create Headlamp ingress
   kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
     state: present
     template: ingress.yaml.j2
