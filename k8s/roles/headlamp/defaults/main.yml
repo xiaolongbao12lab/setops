@@ -1,0 +1,2 @@
+---
+kubeconfig_path: "{{ lookup('env', 'HOME') }}/.kube/config"

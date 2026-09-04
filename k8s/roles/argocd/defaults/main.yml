@@ -1,0 +1,4 @@
+---
+kubeconfig_path: "{{ lookup('env', 'HOME') }}/.kube/config"
+argocd_namespace: argocd
+argocd_release_name: argocd

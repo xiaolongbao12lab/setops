@@ -31,3 +31,5 @@
     - helm
     - python-deps
     - traefik
+    - headlamp
+    - argocd
