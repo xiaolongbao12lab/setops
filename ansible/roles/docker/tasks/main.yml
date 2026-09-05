@@ -7,7 +7,7 @@
 
 - name: Add Docker's official GPG key
   ansible.builtin.get_url:
-    url:  https://download.docker.com/linux/ubuntu/gpg
+    url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: "0644"
 
@@ -26,7 +26,10 @@
       - docker-buildx-plugin
       - docker-compose-plugin
     state: present
+    # Performance optimization: prevents redundant apt-get updates across roles
+    # Expected impact: skips 10-30s update step if run within the last hour
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Add the login user to the docker group
   ansible.builtin.user:
@@ -39,4 +42,3 @@
     name: docker
     state: started
     enabled: true
-

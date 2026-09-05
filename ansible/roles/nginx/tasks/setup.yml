@@ -6,7 +6,10 @@
       - certbot
       - python3-certbot-nginx
     state: present
+    # Performance optimization: prevents redundant apt-get updates across roles
+    # Expected impact: skips 10-30s update step if run within the last hour
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Write the nginx site
   ansible.builtin.template:
