@@ -1,0 +1,3 @@
+## 2024-05-17 - Ansible SSH Pipelining
+**Learning:** Ansible modules require copying files and multiple SSH connections per module by default. When sudo (`become`) is used without requiretty, SSH pipelining can significantly speed up execution by executing modules directly over the SSH pipe without needing SCP/SFTP. This saves network latency, particularly in heavily networked IaC playbooks like those provisioning Kubernetes.
+**Action:** Always enable `pipelining = True` in the `[ssh_connection]` section of `ansible.cfg` to dramatically speed up playbook runs for any Ansible project where `requiretty` isn't strictly enforced.
