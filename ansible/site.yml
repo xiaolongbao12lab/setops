@@ -1,5 +1,12 @@
 ---
-- ansible.builtin.import_playbook: playbooks/baseline.yml
-- ansible.builtin.import_playbook: playbooks/ci-cd.yml
-- ansible.builtin.import_playbook: playbooks/code-quality.yml
-- ansible.builtin.import_playbook: playbooks/artifact-storage.yml
+- name: Apply baseline configuration
+  ansible.builtin.import_playbook: playbooks/baseline.yml
+
+- name: Apply CI/CD configuration
+  ansible.builtin.import_playbook: playbooks/ci-cd.yml
+
+- name: Apply Code Quality configuration
+  ansible.builtin.import_playbook: playbooks/code-quality.yml
+
+- name: Apply Artifact Storage configuration
+  ansible.builtin.import_playbook: playbooks/artifact-storage.yml
