@@ -4,19 +4,17 @@
     path: /etc/apt/keyrings
     state: directory
     mode: "0755"
-
 - name: Add Docker's official GPG key
   ansible.builtin.get_url:
-    url:  https://download.docker.com/linux/ubuntu/gpg
+    url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: "0644"
-
 - name: Add the Docker apt repository
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     filename: docker
     state: present
-
+# ⚡ Bolt: Removed update_cache here as apt_repository implicitly updates the cache.
 - name: Install Docker Engine and the compose plugin
   ansible.builtin.apt:
     name:
@@ -26,17 +24,13 @@
       - docker-buildx-plugin
       - docker-compose-plugin
     state: present
-    update_cache: true
-
 - name: Add the login user to the docker group
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: docker
     append: true
-
 - name: Ensure Docker is started and enabled
   ansible.builtin.service:
     name: docker
     state: started
     enabled: true
-
