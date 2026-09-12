@@ -1,0 +1,3 @@
+## 2024-09-12 - Redundant apt-cache updates in Ansible roles
+**Learning:** Adding `update_cache: true` on `apt` tasks in individual Ansible roles causes significant redundant executions of `apt-get update`, dragging down playbook performance. An initial setup playbook should handle `apt-get update` once globally, or rely on `cache_valid_time: 3600` for efficiency. Also `apt_repository` handles cache updating implicitly when a repository is added.
+**Action:** Always check if a global cache update step exists or if `apt_repository` was just used before appending `update_cache: true` to individual package installations in Ansible.

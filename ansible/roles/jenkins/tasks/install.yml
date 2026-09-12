@@ -11,11 +11,11 @@
     filename: jenkins
     state: present
 
+# ⚡ Bolt: Removed update_cache here as apt_repository implicitly updates the cache.
 - name: Install Jenkins
   ansible.builtin.apt:
     name: jenkins
     state: present
-    update_cache: true
 
 - name: Ensure Jenkins is started and enabled
   ansible.builtin.service:

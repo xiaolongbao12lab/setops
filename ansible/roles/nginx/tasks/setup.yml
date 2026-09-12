@@ -1,4 +1,5 @@
 ---
+# ⚡ Bolt: Removed update_cache. Global update handled by common role upstream.
 - name: Install nginx and certbot
   ansible.builtin.apt:
     name:
@@ -6,7 +7,6 @@
       - certbot
       - python3-certbot-nginx
     state: present
-    update_cache: true
 
 - name: Write the nginx site
   ansible.builtin.template:
