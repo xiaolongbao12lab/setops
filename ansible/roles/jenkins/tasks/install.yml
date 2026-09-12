@@ -15,7 +15,10 @@
   ansible.builtin.apt:
     name: jenkins
     state: present
+    # Performance optimization: prevents redundant apt-get updates across roles
+    # Expected impact: skips 10-30s update step if run within the last hour
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Ensure Jenkins is started and enabled
   ansible.builtin.service:
